@@ -3,9 +3,10 @@ import { StyleSheet, Text, View, Button, SectionList, TouchableOpacity } from 'r
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getStartEndOfWeek, timeStampToDate, oneWeekInTimestamp} from '../Utils/utils';
 
-export default function WeeklyTransactions ({setDisplay}){
+export default function WeeklyTransactions ({setDisplay, navigation}){
     const [list, setList] = useState([]);
     const [cursor, setCursor] = useState(getStartEndOfWeek());
+    const handleView = () => navigation.navigate('Home');
     const getData = async({startOfWeek, endOfWeek}) => {
         const reducer = (acc, obj) => {
         if(obj.date >= startOfWeek && obj.date <= endOfWeek) return acc + Number(obj.amount);
@@ -29,8 +30,6 @@ export default function WeeklyTransactions ({setDisplay}){
         alert("error:" + e);
         }
     };
-    const handleView = () => setDisplay((prev) => !prev);
-
     const prev = async () => {
         const newCursor = {'startOfWeek': (cursor.startOfWeek - oneWeekInTimestamp), 'endOfWeek' : (cursor.endOfWeek - oneWeekInTimestamp)}
         setList(await getData(newCursor));

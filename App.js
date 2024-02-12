@@ -1,17 +1,22 @@
-import { useState } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import { StyleSheet } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import InputForm from './components/InputForm';
 import WeeklyTransactions from './components/WeeklyTransactions';
 
+const Stack = createNativeStackNavigator();
+
 export default function App() {
-  const [display, setDisplay] = useState(false);
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar hidden/>
-      {!display && <InputForm setDisplay={setDisplay} />} 
-      {display && <WeeklyTransactions setDisplay={setDisplay}/>}
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={InputForm}
+        />
+        <Stack.Screen name="Display" component={WeeklyTransactions} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

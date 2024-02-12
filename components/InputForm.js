@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function InputForm ({setDisplay}){
+export default function InputForm ({setDisplay, navigation}){
     const [name, setName] = useState('');
     const [val, setVal] = useState('');
     const handleName = (text) => setName(text);
     const handleVal = (text) => setVal(text);
-    const handleView = () => setDisplay((prev)=>!prev)
+    const handleView = () => navigation.navigate('Display');
     const add = async(type) => {
         const record = {
         category: name,
@@ -32,7 +32,7 @@ export default function InputForm ({setDisplay}){
         } else {
             storeObj = JSON.parse(result);
             if(!storeObj[category]) {
-            storeObj[category] = defaultRec
+            storeObj[category] = defaultRec 
             }
         }
         storeObj[category][type].push({date, amount});
